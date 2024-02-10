@@ -21,7 +21,7 @@ def calculate_elo(winner_elo, loser_elo):
     expected_winner = 1 / (1 + 10 ** ((loser_elo - winner_elo) / 400))
     expected_loser = 1 / (1 + 10 ** ((winner_elo - loser_elo) / 400))
 
-    k_factor = 32  # You can adjust the k_factor based on the desired sensitivity of Elo changes.
+    k_factor = 32  # You can adjust the k_factor based on the desired sensitivity of Elo changes. I dont really know what would work well, but 32 seems like a good start. We could always change it later if needed.
 
     winner_elo_new = winner_elo + k_factor * (1 - expected_winner)
     loser_elo_new = loser_elo + k_factor * (0 - expected_loser)
@@ -31,10 +31,10 @@ def calculate_elo(winner_elo, loser_elo):
 def main():
     filename = 'foosball_ratings.csv'
 
-    # Read existing player ratings or create an empty dictionary
+    # Read existing player ratings
     players = read_players(filename)
 
-    # Get user input for match details
+    # Get user input for match details (user imputed)
     player1 = input("Enter the first name and the last initial of the first player: ")
     player2 = input("Enter the first name and the last initial of the second player: ")
     winner = input("Enter the first name and the last initial of the winner: ")
@@ -60,8 +60,7 @@ def main():
         # Write updated player ratings to the file
         write_players(filename, players)
 
-        # Display updated ratings
-        #print(f"\nUpdated Ratings:\n{player1}: {players[player1]}\n{player2}: {players[player2]}")
+        # Display updated ratings of both players
         print(f"\nUpdated Ratings:\n{player1}: {players[player1]:.1f}\n{player2}: {players[player2]:.1f}")
 
     else:

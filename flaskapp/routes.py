@@ -1,6 +1,6 @@
 from flaskapp import app, db, login_manager
 from flask import render_template, jsonify, redirect, url_for, flash
-from flaskapp import forms
+from flaskapp.forms import LoginForm, RegisterForm, GameForm
 from flaskapp.models import User, Game
 from flask_login import login_required, current_user, login_user, logout_user
 
@@ -33,7 +33,7 @@ def load_user(user_id):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = forms.Register()
+    form = RegisterForm()
     if form.validate_on_submit():
         user = User(
             username=form.username.data,
@@ -50,7 +50,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = forms.Login()
+    form = LoginForm()
     if form.validate_on_submit():
         user = db.session.execute(db.select(User).filter_by(username=form.username.data)).scalar_one()
         if user and user.check_password(form.password.data):
@@ -68,7 +68,7 @@ def logout():
 
 @app.route('/add-game', methods=['POST'])
 def add_game():
-    form = forms.Game()
+    form = GameForm()
     if form.validate_on_submit():
         return redirect('/')
     return jsonify({'response': 'Game added successfully'})

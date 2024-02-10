@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<h1>Submit Game</h1>
+
+<form method="POST" action="/submit-game">
+    {{ form.csrf_token }}
+    {{ form.player1_id.label }} {{ form.player1_id }}
+    {{ form.player1_score.label }} {{ form.player1_score }}
+    {{ form.player2_id.label }} {{ form.player2_id }}
+    {{ form.player2_score.label }} {{ form.player2_score }}
+    {{ form.referee_id.label }} {{ form.referee_id }}
+    <input type="submit" value="Create user">
+</form>
+{% endblock %}

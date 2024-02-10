@@ -3,6 +3,8 @@ from flask import render_template, jsonify, redirect, url_for, flash
 from flaskapp.forms import LoginForm, RegisterForm, GameForm
 from flaskapp.models import User, Game
 from flask_login import login_required, current_user, login_user, logout_user
+from datetime import datetime, timezone
+from flaskapp.elo import calculate_elo
 
 @app.route('/hello')
 def hello_world():
@@ -10,7 +12,7 @@ def hello_world():
 
 @app.route('/')
 def leaderboard():
-    query = db.select(User).order_by(User.elo)
+    query = db.select(User).order_by(User.elo.desc())
     users = db.session.execute(query).scalars()
     return render_template('leaderboard.html', current_user=current_user, users=users,)
 
@@ -55,6 +57,8 @@ def login():
         user = db.session.execute(db.select(User).filter_by(username=form.username.data)).scalar_one()
         if user and user.check_password(form.password.data):
             login_user(user)
+            user.last_login_timestamp = datetime.now(timezone.utc)
+            db.session.commit()
             return redirect(url_for('profile', id=user.id))
         flash('Login failed')
     return render_template('login.html', form=form)
@@ -66,9 +70,27 @@ def logout():
     return redirect(url_for('leaderboard'))
 
 
-@app.route('/add-game', methods=['POST'])
-def add_game():
+@app.route('/submit-game', methods=['GET', 'POST'])
+@login_required
+def submit_game():
     form = GameForm()
     if form.validate_on_submit():
-        return redirect('/')
-    return jsonify({'response': 'Game added successfully'})
+        game = Game(
+            player1_id=form.player1_id.data,
+            player1_score=form.player1_score.data,
+            player2_id=form.player2_id.data,
+            player2_score=form.player2_score.data,
+            referee_id=form.referee_id.data,
+            entered_by_id=current_user.id,)
+        db.session.add(game)
+
+        player1 = User.query.get(form.player1_id.data)
+        player2 = User.query.get(form.player2_id.data)
+        if form.player1_score.data > form.player2_score.data:
+            player1.elo, player2.elo = calculate_elo(player1.elo, player2.elo)
+        elif form.player2_score.data > form.player1_score.data:
+            player2.elo, player1.elo = calculate_elo(player2.elo, player1.elo)
+
+        db.session.commit()
+        flash('Success')
+    return render_template('submit-game.html', form=form)

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField
+from wtforms import StringField, PasswordField, EmailField, IntegerField
 from wtforms.validators import DataRequired, EqualTo, Length
 
 class RegisterForm(FlaskForm):
@@ -29,4 +29,8 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
 
 class GameForm(FlaskForm):
-    name = StringField('name', validators=[DataRequired()])
+    player1_id = IntegerField('Player 1 ID', validators=[DataRequired()])
+    player1_score = IntegerField('Player 1 score', validators=[DataRequired()])
+    player2_id = IntegerField('Player 2 ID', validators=[DataRequired()])
+    player2_score = IntegerField('Player 2 score', validators=[DataRequired()])
+    referee_id = IntegerField('Referee ID', validators=[DataRequired()])

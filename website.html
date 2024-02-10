@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foosball Ranking System</title>
+    <style>
+        body {
+            font-family: 'Brush Script MT', cursive;
+            margin: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        h1 {
+            color: #ff0000;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px;
+            margin-right: 10px;
+            background-color: #555;
+            border: 1px solid #666;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            background-color: #444;
+        }
+
+        .tab.active {
+            background-color: #ff0000;
+            border-color: #cc0000;
+        }
+
+        form, #leaderboard {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #666;
+            border-radius: 8px;
+            background-color: #222;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        input[type="text"],
+        input[type="radio"] {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        input[type="radio"] {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .custom-radio {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #555;
+            border-radius: 50%;
+            margin-right: 8px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .custom-radio::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        input[type="radio"]:checked + .custom-radio::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        button {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #cc0000;
+        }
+
+        #result, #leaderboard {
+            margin-top: 20px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <center><h1>Foosball Ranking System</h1>
+
+    <div class="tab-container">
+        <div class="tab active" onclick="showTab('foosballForm')">Submit Result</div>
+        <div class="tab" onclick="showTab('leaderboard')">Leaderboard</div>
+    </div>
+
+    <form id="foosballForm">
+        <label for="player1">First Player:</label>
+        <input type="text" id="player1" name="player1" required>
+
+        <label for="player2">Second Player:</label>
+        <input type="text" id="player2" name="player2" required>
+
+        <label>Winner:</label>
+        <div class="radio-label">
+            <input type="radio" id="winner1" name="winner" value="player1" class="hidden-radio">
+            <label for="winner1" class="custom-radio"></label>
+            <span class="radio-text">First Player</span>
+        </div>
+        <div class="radio-label">
+            <input type="radio" id="winner2" name="winner" value="player2" class="hidden-radio">
+            <label for="winner2" class="custom-radio"></label>
+            <span class="radio-text">Second Player</span>
+        </div>
+
+        <button type="button" onclick="submitForm()">Submit Match Result</button>
+    </form>
+
+    <div id="leaderboard" style="display:none;">
+        <h2>Leaderboard</h2>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            document.getElementById('foosballForm').style.display = (tabId === 'foosballForm') ? 'block' : 'none';
+            document.getElementById('leaderboard').style.display = (tabId === 'leaderboard') ? 'block' : 'none';
+
+            // Update active tab styling
+            document.querySelector('.tab.active').classList.remove('active');
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        function submitForm() {
+            // Your JavaScript logic to handle form submission (e.g., AJAX request to the server)
+
+            // Example: Display result in the "result" div
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p style="color: #ff0000;">Updated Ratings:</p><p>Player1: 1200.5</p><p>Player2: 1199.5</p>';
+        }
+    </script>
+</body>
+</html>

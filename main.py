@@ -5,7 +5,7 @@ def read_players(filename):
     try:
         with open(filename, 'r') as file:
             reader = csv.reader(file)
-            players = {row[0]: int(row[1]) for row in reader}
+            players = {row[0]: float(row[1]) for row in reader if len(row) >= 2}
     except FileNotFoundError:
         players = {}
     return players
@@ -14,7 +14,8 @@ def write_players(filename, players):
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         for player, elo in players.items():
-            writer.writerow([player, elo])
+            elo_formatted = "{:.1f}".format(elo)  # Format Elo rating with one decimal place
+            writer.writerow([player, elo_formatted])
 
 def calculate_elo(winner_elo, loser_elo):
     expected_winner = 1 / (1 + 10 ** ((loser_elo - winner_elo) / 400))
@@ -34,14 +35,15 @@ def main():
     players = read_players(filename)
 
     # Get user input for match details
-    player1 = input("Enter the name of the first player: ")
-    player2 = input("Enter the name of the second player: ")
-    winner = input("Enter the name of the winner: ")
+    player1 = input("Enter the first name and the last initial of the first player: ")
+    player2 = input("Enter the first name and the last initial of the second player: ")
+    winner = input("Enter the first name and the last initial of the winner: ")
 
-    # Check if players have existing ratings
-    if player1 not in players or player2 not in players:
-        print("Invalid player names. Ensure both players have existing ratings.")
-        return
+    # Check if players have existing ratings, create default if not
+    if player1 not in players:
+        players[player1] = 1200
+    if player2 not in players:
+        players[player2] = 1200
 
     # Get current player ratings
     player1_elo = players[player1]
@@ -59,7 +61,9 @@ def main():
         write_players(filename, players)
 
         # Display updated ratings
-        print(f"\nUpdated Ratings:\n{player1}: {players[player1]}\n{player2}: {players[player2]}")
+        #print(f"\nUpdated Ratings:\n{player1}: {players[player1]}\n{player2}: {players[player2]}")
+        print(f"\nUpdated Ratings:\n{player1}: {players[player1]:.1f}\n{player2}: {players[player2]:.1f}")
+
     else:
         print("Invalid winner name. No changes made.")
 

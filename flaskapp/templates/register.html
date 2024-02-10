@@ -5,4 +5,16 @@
 
 {% block content %}
 <h1>Register</h1>
+
+<form method="POST" action="/register">
+    {{ form.csrf_token }}
+    {{ form.username.label }} {{ form.username }}
+    {{ form.email.label }} {{ form.email }}
+    {{ form.display_name.label }} {{ form.display_name }}
+    {{ form.firstname.label }} {{ form.firstname }}
+    {{ form.lastname.label }} {{ form.lastname }}
+    {{ form.password.label }} {{ form.password }}
+    {{ form.confirm_password.label }} {{ form.confirm_password }}
+    <input type="submit" value="Create user">
+</form>
 {% endblock %}

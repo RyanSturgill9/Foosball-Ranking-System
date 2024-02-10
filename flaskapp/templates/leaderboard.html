@@ -7,4 +7,11 @@
 <h1>Leaderboard</h1>
 
 <p>Something</p>
+
+{% if current_user.is_authenticated %}
+    Hi {{ current_user.username }}!
+{% else %}
+    You are not logged in
+{% endif %}
+
 {% endblock %}

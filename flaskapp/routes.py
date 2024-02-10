@@ -10,7 +10,9 @@ def hello_world():
 
 @app.route('/')
 def leaderboard():
-    return render_template('leaderboard.html', current_user=current_user)
+    query = db.select(User).order_by(User.elo)
+    users = db.session.execute(query).scalars()
+    return render_template('leaderboard.html', current_user=current_user, users=users,)
 
 @app.route('/profile/<int:id>')
 def profile(id):
@@ -23,7 +25,7 @@ def profile(id):
         lastname=user.lastname,
         elo=user.elo,
         description=user.description,
-        profile_picture=user.profile_picture) # User information entered manually to prevent leaking data
+        profile_picture=user.profile_picture)
 
 @login_manager.user_loader
 def load_user(user_id):

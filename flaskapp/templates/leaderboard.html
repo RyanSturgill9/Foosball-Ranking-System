@@ -14,4 +14,22 @@
     You are not logged in
 {% endif %}
 
+<table>
+    <tr>
+        <th>Display</th>
+        <th>First</th>
+        <th>Last</th>
+        <th>ELO</th>
+    </tr>
+    {% for user in users %}
+        <tr>
+            <th><a href="{{ url_for('profile', id=user.id) }}">{{ user.display_name }}</a></th>
+            <th>{{ user.firstname }}</th>
+            <th>{{ user.lastname }}</th>
+            <th>{{ user.elo }}</th>
+        </tr>
+    {% endfor %}
+</table>
+
+
 {% endblock %}

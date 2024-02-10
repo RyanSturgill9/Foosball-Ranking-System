@@ -1,10 +1,11 @@
 import os
+import secrets
 
 class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = 'thisisunsecurebutiwillchangeitlater'
+    SECRET_KEY = secrets.token_urlsafe(64)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ProductionConfig(Config):

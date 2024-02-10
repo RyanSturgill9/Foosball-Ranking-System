@@ -8,6 +8,7 @@
 
 ## Backend
 
+- [ ] Check all inputs at both form level and database level for security
 - [ ] Add API for getting info and adding info
 - [ ] Implement verification system
 - [ ] Add tournaments

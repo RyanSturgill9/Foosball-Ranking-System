@@ -1,13 +1,14 @@
 from datetime import datetime, timezone
 from flaskapp import db, bcrypt
 from flask_login import UserMixin
+import secrets
 
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     display_name = db.Column(db.String, nullable=False)
-    _password = db.Column(db.String, nullable=False, default='Something has gone terribly wrong') # Do not directly change the _password property. Use set_password() and check_password()
+    _password = db.Column(db.String, nullable=False, default=secrets.token_urlsafe(32)) # Do not directly change the _password property. Use set_password() and check_password()
     email = db.Column(db.String, unique=True, nullable=False)
     email_is_verified = db.Column(db.Boolean, nullable=False, default=False)
     email_confirmed_timestamp = db.Column(db.DateTime)

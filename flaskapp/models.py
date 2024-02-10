@@ -40,6 +40,7 @@ class Game(db.Model):
     verified = db.Column(db.Boolean, default=False, nullable=False)
     player1_score = db.Column(db.Integer, nullable=False, default=0)
     player2_score = db.Column(db.Integer, nullable=False, default=0)
+    game_completed = db.Column(db.Boolean, default=False, nullable=False)
     score_pad = db.Column(db.String)
     data_entered_timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     game_date = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))

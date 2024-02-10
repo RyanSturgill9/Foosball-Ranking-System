@@ -81,7 +81,8 @@ def submit_game():
             player2_id=form.player2_id.data,
             player2_score=form.player2_score.data,
             referee_id=form.referee_id.data,
-            entered_by_id=current_user.id,)
+            entered_by_id=current_user.id,
+            game_completed=True,)
         db.session.add(game)
 
         player1 = User.query.get(form.player1_id.data)
@@ -90,7 +91,9 @@ def submit_game():
             player1.elo, player2.elo = calculate_elo(player1.elo, player2.elo)
         elif form.player2_score.data > form.player1_score.data:
             player2.elo, player1.elo = calculate_elo(player2.elo, player1.elo)
-
+        player1.games_played += 1
+        player2.games_played += 1
         db.session.commit()
+        
         flash('Success')
     return render_template('submit-game.html', form=form)

@@ -27,7 +27,8 @@ def profile(id):
         lastname=user.lastname,
         elo=user.elo,
         description=user.description,
-        profile_picture=user.profile_picture)
+        profile_picture=user.profile_picture,
+        games_played=user.games_played)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -91,8 +92,9 @@ def submit_game():
             player1.elo, player2.elo = calculate_elo(player1.elo, player2.elo)
         elif form.player2_score.data > form.player1_score.data:
             player2.elo, player1.elo = calculate_elo(player2.elo, player1.elo)
-        player1.games_played += 1
-        player2.games_played += 1
+        player1.play_count += 1
+        player2.play_count += 1
+
         db.session.commit()
         
         flash('Success')

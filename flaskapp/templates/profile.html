@@ -8,4 +8,9 @@
 
 Username: {{ username }}
 Display name: {{ display_name }}
+
+{% for game in games_played %}
+{{ game.player1_score}}
+{% endfor %}
+
 {% endblock %}

@@ -1,0 +1,14 @@
+<div class="auth-btns">
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('register') }}" class="register-btn">Register</a>
+    {% endif %}
+</div>
+
+{% if current_user.is_authenticated %}
+<div class="submit-game-button">
+    <a href="{{ url_for('submit_game') }}">Submit game</a>
+</div>
+{% endif %}

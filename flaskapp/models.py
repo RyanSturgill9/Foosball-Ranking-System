@@ -33,7 +33,8 @@ class User(UserMixin, db.Model):
 
     # Relationships
     awards = db.relationship('Award', secondary='awardee_award', backref='awardees')
-    games_played = db.relationship('Game', secondary='player_game', backref='players')
+    games_played1 = db.relationship('Game', backref='player1', foreign_keys='Game.player1_id')
+    games_played2 = db.relationship('Game', backref='player2', foreign_keys='Game.player2_id')
     games_officiated = db.relationship('Game', backref='referee', foreign_keys='Game.referee_id')
 
     def set_password(self, password):
@@ -69,7 +70,8 @@ class Game(db.Model):
     - tournament
 
     Added by User backref:
-    - players
+    - player1
+    - player2
     - referee
     '''
 
@@ -95,10 +97,6 @@ awardee_award = db.Table('awardee_award',
                          db.Column('awardee_id', db.Integer, db.ForeignKey('user.id')),
                          db.Column('award_id', db.Integer, db.ForeignKey('award.id')),
                          )
-player_game = db.Table('player_game',
-                       db.Column('player_id', db.Integer, db.ForeignKey('user.id')),
-                       db.Column('game_id', db.Integer, db.ForeignKey('game.id')),
-                       )
 
 class Award(db.Model):
     id = db.Column(db.Integer, primary_key=True)

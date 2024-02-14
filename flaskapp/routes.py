@@ -16,6 +16,21 @@ def leaderboard():
     users = db.session.execute(query).scalars()
     return render_template('leaderboard.html', current_user=current_user, users=users,)
 
+@app.route('/players')
+def players():
+    query = db.select(User)
+    users = db.session.execute(query).scalars()
+    return render_template('players.html', current_user=current_user, users=users,)
+
+@app.route('/games')
+def games():
+    query = db.select(Game).order_by(Game.id.desc())
+    games = db.session.execute(query).scalars()
+    return render_template('games.html',
+    current_user=current_user,
+    games=games,)
+
+# Remmber to limit returned values if giving data in API
 @app.route('/profile/<int:id>')
 def profile(id):
     user = db.get_or_404(User, id)
@@ -27,8 +42,7 @@ def profile(id):
         lastname=user.lastname,
         elo=user.elo,
         description=user.description,
-        profile_picture=user.profile_picture,
-        games_played=user.games_played)
+        profile_picture=user.profile_picture,)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -96,6 +110,5 @@ def submit_game():
         player2.play_count += 1
 
         db.session.commit()
-        
-        flash('Success')
+        return redirect(url_for('leaderboard'))
     return render_template('submit-game.html', form=form)

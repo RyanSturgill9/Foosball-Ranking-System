@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<h1>Games</h1>
+
+{% if current_user.is_authenticated %}
+    Hi {{ current_user.username }}!
+{% else %}
+    You are not logged in
+{% endif %}
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Referee</th>
+        <th>Winner</th>
+    </tr>
+    {% for game in games %}
+        <tr>
+            <td>{{ game.id }}</td>
+            <td>{{ game.player1.display_name }}#{{ game.player1.id }} ({{ game.player1.elo|round|int }})</td>
+            <td>{{ game.player2.display_name }}#{{ game.player2.id }} ({{ game.player2.elo|round|int }})</td>
+            <td>{{ game.referee.display_name }}</td>
+            <td>{% if game.player1_score > game.player2_score %}
+                {{ game.player1.display_name}}
+                {% elif game.player1_score < game.player2_score %}
+                {{ game.player2.display_name}}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

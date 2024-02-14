@@ -1,8 +1,17 @@
-@import url('header.css');
+@import url('navbar.css');
+
+:root {
+    --background: #32373B;
+    --darker: #191716;
+    --text: #F8F7FF;
+    --primary: #EE2E31;
+    --secondary: #2E86AB;
+    --accent: #FABC2A;
+}
 
 body {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--background);
+    color: var(--text);
     margin: 0;
     font-family: sans-serif;
 }
@@ -20,24 +29,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-.tab {
-    padding: 10px;
-    margin-right: 10px;
-    background-color: #555;
-    border: 1px solid #666;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.tab:hover {
-    background-color: #444;
-}
-
-.tab.active {
-    background-color: #ff0000;
-    border-color: #cc0000;
-}
-
 form, #leaderboard {
     max-width: 400px;
     margin: 20px auto;
@@ -51,7 +42,7 @@ label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    color: #ff0000;
+    color: var(--primary);
 }
 
 input[type="text"],
@@ -67,6 +58,18 @@ input[type="number"] {
     color: #fff;
     border: 1px solid #555;
     border-radius: 4px;
+}
+
+input[type="submit"]
+{
+    background-color: var(--primary);
+    padding: 8px 16px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
 }
 
 .radio-label {
@@ -126,4 +129,8 @@ button:hover {
 #result, #leaderboard {
     margin-top: 20px;
     color: #ccc;
+}
+
+table {
+    text-align: left;
 }

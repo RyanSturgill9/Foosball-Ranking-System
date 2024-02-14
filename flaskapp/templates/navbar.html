@@ -1,0 +1,21 @@
+<nav>
+    <ul>
+        <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+        <li><a href="{{ url_for('games') }}">Games</a></li>
+        <li><a href="{{ url_for('players') }}">Players</a></li>
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}" class="register-btn">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% if current_user.is_authenticated %}
+<div class="submit-game-button">
+    <a href="{{ url_for('submit_game') }}"><span class="material-symbols-outlined">
+        add
+        </span></a>
+</div>
+{% endif %}

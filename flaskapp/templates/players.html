@@ -6,12 +6,6 @@
 {% block content %}
 <h1>Players</h1>
 
-{% if current_user.is_authenticated %}
-    Hi {{ current_user.username }}!
-{% else %}
-    You are not logged in
-{% endif %}
-
 <table>
     <tr>
         <th>Display</th>
@@ -21,7 +15,7 @@
     </tr>
     {% for user in users %}
         <tr>
-            <td><a href="{{ url_for('profile', id=user.id) }}">{{ user.display_name }}#{{ user.id }}</a></td>
+            <td><a href="{{ url_for('profile', id=user.id) }}">{{ user.display_name }}#{{ '%04d' % user.id }}</a></td>
             <td>{{ user.firstname }}</td>
             <td>{{ user.lastname }}</td>
             <td>{{ user.elo|round|int }}</td>

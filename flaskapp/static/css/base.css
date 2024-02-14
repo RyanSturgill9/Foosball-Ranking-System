@@ -21,7 +21,11 @@ body {
 }
 
 h1 {
-    color: #ff0000;
+    color: var(--primary)
+}
+
+a {
+    color: var(--secondary);
 }
 
 .tab-container {
@@ -133,4 +137,15 @@ button:hover {
 
 table {
     text-align: left;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+th, td {
+    font-size: 18px;
+    padding: 8px 10px;
+}
+
+tr:nth-child(odd) {
+    background-color: var(--darker);
 }

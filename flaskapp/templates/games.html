@@ -12,6 +12,7 @@
         <th>Player 1</th>
         <th>Player 2</th>
         <th>Referee</th>
+        <th>Score</th>
         <th>Winner</th>
     </tr>
     {% for game in games %}
@@ -20,6 +21,7 @@
             <td><a href="{{ url_for('profile', id=game.player1.id) }}">{{ game.player1.display_name }}#{{ '%04d' % game.player1.id }}</a> ({{ game.player1.elo|round|int }})</td>
             <td><a href="{{ url_for('profile', id=game.player2.id) }}">{{ game.player2.display_name }}#{{ '%04d' % game.player2.id }}</a> ({{ game.player2.elo|round|int }})</td>
             <td>{{ game.referee.display_name }}</td>
+            <td>{{ game.player1_score }} - {{ game.player2_score }}</td>
             <td>{% if game.player1_score > game.player2_score %}
                 {{ game.player1.display_name}}
                 {% elif game.player1_score < game.player2_score %}
